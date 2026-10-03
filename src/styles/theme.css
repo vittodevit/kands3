@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/*
+ * Knob & Switch Computer — design tokens.
+ * Tailwind 4, CSS-variable based, dark & light both first-class.
+ * Strategy: raw values live on :root (light) and .dark (dark, DEFAULT app
+ * theme — applied to <html> by the settings store). `@theme inline` maps them
+ * to Tailwind color tokens so utilities like `text-accent-bus` resolve to
+ * var(--accent-bus) at runtime and re-theme instantly.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Surfaces */
+  --bg: oklch(97.6% 0.003 265);
+  --bg-canvas: oklch(95.3% 0.004 265);
+  --surface: oklch(99% 0 0);
+  --surface-raised: oklch(100% 0 0);
+  --surface-sunken: oklch(93.2% 0.005 265);
+
+  /* Text */
+  --text: oklch(24% 0.016 265);
+  --text-muted: oklch(45% 0.016 265);
+  --text-faint: oklch(58% 0.012 265);
+
+  /* Borders */
+  --border: oklch(89.5% 0.006 265);
+  --border-strong: oklch(78% 0.009 265);
+
+  /* Accents */
+  --accent-bus: oklch(52% 0.163 258); /* energized / active (was "blue") */
+  --accent-rest: oklch(62% 0.02 265); /* idle wire */
+  --accent-danger: oklch(51% 0.201 27); /* contention / ERR (was "red") */
+  --accent-memory: oklch(49% 0.135 160); /* memory traffic */
+  --accent-control: oklch(47% 0.164 300); /* control unit (PC/IR) */
+  --accent-reg: oklch(50% 0.13 215); /* register operands (secondary) */
+
+  /* Soft tints for chip/outline backgrounds */
+  --accent-bus-soft: color-mix(in oklab, var(--accent-bus) 12%, transparent);
+  --accent-danger-soft: color-mix(in oklab, var(--accent-danger) 12%, transparent);
+  --accent-memory-soft: color-mix(in oklab, var(--accent-memory) 12%, transparent);
+  --accent-control-soft: color-mix(in oklab, var(--accent-control) 12%, transparent);
+  --accent-reg-soft: color-mix(in oklab, var(--accent-reg) 12%, transparent);
+
+  /* Effects */
+  --shadow-raised: 0 1px 2px oklch(0% 0 0 / 0.05), 0 4px 16px oklch(20% 0.02 265 / 0.07);
+  --ring: var(--accent-bus);
+}
+
+.dark {
+  --bg: oklch(16.2% 0.012 265);
+  --bg-canvas: oklch(13.8% 0.011 265);
+  --surface: oklch(19.4% 0.012 265);
+  --surface-raised: oklch(22.8% 0.014 265);
+  --surface-sunken: oklch(12.8% 0.01 265);
+
+  --text: oklch(93% 0.005 265);
+  --text-muted: oklch(70% 0.011 265);
+  --text-faint: oklch(52% 0.012 265);
+
+  --border: oklch(28% 0.012 265);
+  --border-strong: oklch(37% 0.014 265);
+
+  --accent-bus: oklch(73% 0.145 250);
+  --accent-rest: oklch(44% 0.02 265);
+  --accent-danger: oklch(68% 0.187 25);
+  --accent-memory: oklch(77% 0.148 158);
+  --accent-control: oklch(75% 0.128 305);
+  --accent-reg: oklch(72% 0.11 215);
+
+  --shadow-raised: 0 1px 2px oklch(0% 0 0 / 0.4), 0 6px 24px oklch(0% 0 0 / 0.35);
+  --ring: var(--accent-bus);
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", monospace;
+
+  --color-base: var(--bg);
+  --color-canvas: var(--bg-canvas);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-sunken: var(--surface-sunken);
+
+  --color-ink: var(--text);
+  --color-ink-muted: var(--text-muted);
+  --color-ink-faint: var(--text-faint);
+
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+
+  --color-accent-bus: var(--accent-bus);
+  --color-accent-rest: var(--accent-rest);
+  --color-accent-danger: var(--accent-danger);
+  --color-accent-memory: var(--accent-memory);
+  --color-accent-control: var(--accent-control);
+  --color-accent-reg: var(--accent-reg);
+
+  --color-accent-bus-soft: var(--accent-bus-soft);
+  --color-accent-danger-soft: var(--accent-danger-soft);
+  --color-accent-memory-soft: var(--accent-memory-soft);
+  --color-accent-control-soft: var(--accent-control-soft);
+  --color-accent-reg-soft: var(--accent-reg-soft);
+
+  --shadow-raised: var(--shadow-raised);
+}
