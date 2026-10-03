@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Play, Sparkles, Upload } from "lucide-react";
+import { Play, BookOpenText, Upload } from "lucide-react";
 import { assemble } from "@/core/assembler";
 import { parseValue } from "@/core/numbers";
 import type { Word } from "@/core/types";
@@ -186,14 +186,13 @@ export function AsmEditorPanel() {
         <Button
           size="sm"
           variant="ghost"
-          title={t("panel.editor.exampleTitle")}
+          title={t("panel.editor.isatitle")}
           onClick={() => {
-            setText(EXAMPLE_PROGRAM);
-            setLoadedCount(null);
+            window.open("https://github.com/vittodevit/kands3/blob/main/docs/ISA.md", "_blank");
           }}
         >
-          <Sparkles aria-hidden className="h-3.5 w-3.5" />
-          {t("panel.editor.example")}
+          <BookOpenText aria-hidden className="h-3.5 w-3.5" />
+          {t("panel.editor.isadoc")}
         </Button>
       </div>
 
