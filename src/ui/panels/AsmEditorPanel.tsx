@@ -11,7 +11,6 @@ import { Button } from "@/ui/primitives";
 import { cn } from "@/lib/utils";
 
 /** Small demo: doubles the data word at address 5 into address 6. */
-const EXAMPLE_PROGRAM = "LOAD R0 5\nADD R0 R0 R0\nSTORE 6 R0\nHALT\nNOP\n7";
 
 type LineResult = { word: Word | null; error: boolean; isInstr: boolean };
 
