@@ -1,0 +1,74 @@
+# Build the Vite app and publish it to GitHub Pages.
+#
+# Prerequisites (repo Settings → Pages):
+#   Source: "GitHub Actions"
+#
+# Notes:
+# - vite.config.ts uses base: "./", so the build works both as a project site
+#   (https://<owner>.github.io/<repo>/) and as a user/org site root.
+# - Vite fingerprints the files in dist/assets/, so no extra cache-busting
+#   is needed; Pages just serves index.html + the assets folder as-is.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # Allow running this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# Grant GITHUB_TOKEN the permissions required by the Pages deployment.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment; don't cancel in-progress runs
+# (a cancelled deploy would leave Pages pointing at a stale artifact).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Installs pnpm from the packageManager field in package.json,
+      # Node.js, and caches the pnpm store — replaces both
+      # pnpm/action-setup and actions/setup-node.
+      - name: Setup pnpm + Node
+        uses: pnpm/setup@v1
+        with:
+          version: 12.8.1
+          runtime: node@22
+          cache: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # vite.config.ts sets base: "./" (relative asset URLs), so the same
+      # build works at https://<owner>.github.io/<repo>/ and at the site
+      # root of a user/org pages repo.
+      - name: Build
+        run: pnpm build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
